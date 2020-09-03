@@ -19,7 +19,9 @@ function PopularMoviesPage(props) {
                 title={movie.title}
                 releaseDate={movie.release_date}
                 voteAverage={movie.vote_average}
-                backgroundImageUrl={`${IMAGE_PATH}${movie.poster_path}`}
+                backgroundImageUrl={
+                  movie.poster_path ? `${IMAGE_PATH}${movie.poster_path}` : null
+                }
               />
             </Link>
           </Column>

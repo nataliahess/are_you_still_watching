@@ -13,7 +13,7 @@ function SearchBar(props) {
         placeholder="Search movies..."
         value={props.value}
         onChange={props.onChange}
-        onKeyDown={props.onKeyDown}
+        onKeyDown={props.onSubmit}
       />
     </SearchBarWrapper>
   )

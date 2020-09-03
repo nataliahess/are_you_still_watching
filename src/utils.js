@@ -7,3 +7,15 @@ export const formatCurrency = (amount) =>
         style: 'currency',
         currency: 'USD',
       }).format(amount)
+
+export const debounce = (fn, delay) => {
+  let timeout
+  return (...args) => {
+    const laterFn = () => {
+      timeout = null
+      fn(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(laterFn, delay)
+  }
+}

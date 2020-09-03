@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Flex } from 'rebass'
 
+import { debounce } from '../../../utils.js'
+
 import PopularMoviesPage from '../PopularMoviesPage'
 
 import HeaderTitle from '../../../components/HeaderTitle'
@@ -11,6 +13,7 @@ const MoviesContainer = () => {
   const [popularMoviesList, setPopularMoviesList] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [searchString, setSearchString] = useState('')
+  const debouncedSearchString = debounce(searchString, 500)
 
   useEffect(() => {
     ;(async () => {
@@ -30,11 +33,12 @@ const MoviesContainer = () => {
   const search = async (e) => {
     if (e.key === 'Enter') {
       try {
-        const resp = await fetch(
+        const response = await fetch(
           `http://localhost:3000/api/movies/search?q=${searchString}`
         )
-        const movies = await resp.json()
+        const movies = await response.json()
         setPopularMoviesList(movies.results)
+        setIsLoading(false)
       } catch (e) {
         console.log(e)
       }
@@ -53,7 +57,7 @@ const MoviesContainer = () => {
         <SearchBar
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
-          onKeyDown={search}
+          onSubmit={debouncedSearchString && search}
         />
       </Flex>
       <PopularMoviesPage movies={popularMoviesList} />

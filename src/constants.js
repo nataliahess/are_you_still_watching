@@ -4,6 +4,9 @@ export const BASE_URL = 'https://api.themoviedb.org/3/movie'
 
 export const IMAGE_PATH = 'https://image.tmdb.org/t/p/w500/'
 
+export const POSTER_PLACEHOLDER_URL =
+  'https://critics.io/img/movies/poster-placeholder.png'
+
 export const GENRES = Object.freeze({
   ACTION: 'action',
   COMEDY: 'comedy',

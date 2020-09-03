@@ -2,11 +2,11 @@ const express = require('express')
 const path = require('path')
 const app = express()
 const port = 3000
-const MovieDatabaseService = require('./services/movie-db').service
+const MovieDBService = require('./services/movie-db').service
 
 const instantiateService = (req, res, next) => {
   if (!res.locals.movieService) {
-    res.locals.movieService = new MovieDatabaseService()
+    res.locals.movieService = new MovieDBService()
   }
   next()
 }
@@ -21,16 +21,10 @@ app.use((req, res, next) => {
   next()
 })
 
-// app.use(express.static(path.join(__dirname, './build')))
-
-// app.get('/', (req, res) =>
-//   res.sendFile(path.join(__dirname, './build', 'index.html'))
-// )
-
-app.use(express.static(path.join(__dirname, './public')))
+app.use(express.static(path.join(__dirname, './build')))
 
 app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, './public', 'index.html'))
+  res.sendFile(path.join(__dirname, './build', 'index.html'))
 )
 
 app.get('/api/movies/popular', (req, res, next) => {
@@ -38,7 +32,7 @@ app.get('/api/movies/popular', (req, res, next) => {
   movieService
     .getPopularMovies()
     .then((resp) => {
-      console.log('getting a response')
+      console.log('⏳ Getting a response...')
       res.json(resp)
     })
     .catch((e) => next(e))
@@ -64,6 +58,4 @@ app.get('/api/movies/search', (req, res, next) => {
     .catch((e) => next(e))
 })
 
-app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
-)
+app.listen(port, () => console.log(`App listening at http://localhost:${port}`))
